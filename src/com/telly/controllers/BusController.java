@@ -22,6 +22,7 @@ public class BusController {
 	BusService busService;
 	
 
+
 	@RequestMapping("/createtrip")
 	public String reserveBus(Model model, Principal principal) {
 
@@ -45,5 +46,30 @@ public class BusController {
 	}
 
 	
+
+
+	
+
+	@RequestMapping("/results")
+	public String leave(Model model, Principal principal) {
+
+		model.addAttribute("bus", new Bus());
+
+		return "results";
+	}
+	
+
+	@RequestMapping(value = "/resultsfrom", method = RequestMethod.GET)
+	public String leaveFrom(@Validated(FormValidationGroup.class) Bus bus, BindingResult result, Model model,
+			Principal principal) {
+
+		List<Bus> results = busService.getCity(bus.getLeaveFrom(), bus.getGoingTo(), bus.getDateLeave(),
+				bus.getDateReturn());
+		model.addAttribute("results", results);
+		System.out.println(results);
+
+		return "results";
+
+	}
 
 }
